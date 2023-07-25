@@ -1,7 +1,7 @@
 # companyProject
 
-##개발환경
-####M데이터 베이스 : MySQL
+# 개발환경
+####  데이터 베이스 : MySQL
 ####언어 : JAVA
 ####spring3.2.8, tomcat 8.5, JDK 13.0.2
 ***
