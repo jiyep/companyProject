@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="cs.dit.mapper.MemberMapper">
+  
+  	<!-- 회원가입 -->
+  	<insert id="memberJoin">
+  		insert into member values(#{memberId}, #{memberPw}, #{memberName}, #{memberTel}, #{memberEmail},#{memberRoute}, #{memberAgreeES},#{memberAgreeSNS},#{memberAgreeOther})
+  	</insert>
+  	
+  	<!-- 아이디 중복검사 -->
+  	<select id="idCheck" resultType="int">  	
+  		select count(*) from member where memberId = #{memberId} 	
+  	</select>
+  	
+  	<!-- 이메일 중복검사 -->
+  	<select id="emailCheck" resultType="int">  	
+  		select count(*) from member where memberEmail = #{memberEmail} 	
+  	</select>
+  	
+  	<!-- 로그인 -->
+    <select id="memberLogin" resultType="cs.dit.model.MemberVO">     
+       select * from member where memberId = #{memberId}      
+    </select>
+    
+    <!-- 소셜 로그인 아이디 가져오기-->
+    <select id="memberSnsLogin" resultType="cs.dit.model.MemberVO" >     
+       select * from member where memberEmail = #{memberEmail}      
+    </select>
+    
+    <!-- 회원정보 수정 -->
+    <update id="memberModify">
+    	update member 
+    	set memberPw = #{memberPw}, memberTel=#{memberTel}, memberEmail=#{memberEmail}, memberAgreeSNS=#{memberAgreeSNS},  memberAgreeOther=#{memberAgreeOther}
+    	where memberId = #{memberId}
+    </update>
+    
+    <!-- 회원정보 읽어오기 -->
+	<select id="readMember" parameterType="cs.dit.model.MemberVO" resultType="cs.dit.model.MemberVO">
+		select * from member where memberId = #{memberId}
+	</select>
+    
+    <!-- 비밀번호 변경 -->
+	<update id="updatePw">
+		update member set memberPw = #{memberPw} where memberId = #{memberId}
+	</update>
+	
+	<!-- 회원탈퇴 -->
+	<delete id="memberDelete">
+		delete from member where memberId = #{memberId}
+	</delete>
+	  	
+  </mapper>

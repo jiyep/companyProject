@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="cs.dit.mapper.BoardMapper">
+  
+  	<!-- 게시판 등록 -->
+    <insert id="boardWrite">
+        insert into board(title, content, fileName, origiFile, writer, memberId) values (#{title}, #{content}, #{fileName}, #{origiFile}, #{writer}, #{memberId})
+    </insert>
+
+    <!-- 게시물 목록 -->
+    <select id="getListPaging" resultType="cs.dit.model.BoardVO">
+        select * from board
+        <if test="keyword != null">
+        	where title like concat('%',#{keyword},'%' )
+        </if>
+		order by bno desc
+		limit #{skip},#{amount};    
+    </select>  
+    
+   <!-- 마이페이지 게시판 목록 -->
+   <select id="myGetList" resultType="cs.dit.model.BoardVO">
+        select * from board
+        where memberId = #{memberId}
+		order by bno desc; 
+    </select>
+    
+    <!-- 게시판 조회 -->
+    <select id="getPage" parameterType="int" resultType="cs.dit.model.BoardVO">
+    	select * from board where bno=#{bno} order by bno desc;
+    </select>
+    
+    
+    <!-- 게시판 수정하기 -->
+    <update id="modifyBoard">
+    	update board 
+    	set title = #{title}, content=#{content}, fileName=#{fileName}, origiFile=#{origiFile}
+    	where bno = #{bno} 
+    </update>
+    
+    <!-- 게시판 삭제하기 -->
+    <delete id="boardDelete">
+		delete from board where bno = #{bno}
+	</delete>
+	
+	<!-- 게시물 총 갯수 -->
+    <select id="getTotal" resultType="int">   
+        select count(*) from board
+         <if test="keyword != null">
+            where title like concat('%',#{keyword},'%')
+        </if>   
+    </select>
+
+  </mapper>
